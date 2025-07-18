@@ -1,0 +1,6 @@
+Name,Age,Gender,Salary,Date,Category
+Alice,25.0,Female,50000.0,2024-05-10,A
+Bob,30.0,Male,60000.0,2024-06-15,B
+Charlie,,Male,55000.0,2024-07-20,A
+David,45.0,Male,65000.0,,C
+Eva,28.0,Female,,2024-09-25,B

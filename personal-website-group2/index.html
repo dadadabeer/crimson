@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <title>Dabeer's Personal Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-content">
+            <div class = "logo">
+                <a href = #home>Dabeer Ahmed</a>
+            </div>
+                <ul class="nav-links">
+                    <li> <a href = #home>Home</a></li>
+                    <li><a href = #about>About</a></li>
+                    <li><a href = #projects> Projects</a></li>
+                </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="section">
+        <div class="container">
+            <h1>Welcome to my Portfolio</h1>
+            <p class="lead">I am an Engineer, passionate about EdTech</p>
+            <a href = "resume.pdf" target = "_blank" class="btn">View Resume</a>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class = "qualifications">
+                <div class = "qualification">
+                    <h3>Education</h3>
+                    <p>YALE, YALE-NUS</p>
+                </div>
+        
+
+                <div class = "qualification">
+                    <h3>Experience</h3>
+                    <p>Crimson</p>
+                </div>
+        
+                <div class = "qualification">
+                    <h3>Skills</h3>
+                    <p>LEADER</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>PROJECT 1</h3>
+                    <p>[PROJECT DESCRIPTION]</p>
+                    <a href="#" class="btn-small">View Project</a>
+                </div>
+            
+
+                <div class="project-card">
+                    <h3>PROJECT 2</h3>
+                    <p>[PROJECT DESCRIPTION]</p>
+                    <a href="#" class="btn-small">View Project</a>
+                </div>
+            
+
+                <div class="project-card">
+                    <h3>PROJECT 3</h3>
+                    <p>[PROJECT DESCRIPTION]</p>
+                    <a href="#" class="btn-small"> View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>JavaScript Interactive elements</h2> 
+
+        <!-- DARK MODE TOGGLE -->
+        <div class = "interactive-section">
+            <h3>Dark Mode Toggle</h3>
+            <button id = "darkModeButton" onclick="toggleDarkMode()">DARK MODE</button>
+        </div>
+
+        <!-- CHANGE WELCOME MESSAGE -->
+        <div class = "interactive-section">
+            <h3>CHANGE WELCOME MESSAGE</h3>
+            <h1 id="welcomeText" onclick="changeWelcomeMessage()">Welcome To My Portfolio!</h1>
+            <small>Click the text above to change the message</small>
+        </div>
+
+        <!-- Update Counter -->
+        <div class = "interactive-section">
+            <h3>UPDATE COUNTER</h3>
+            <div class="counter-buttons">
+                <button onclick="updateCounter('decrease')">-</button>
+                <span id="counterValue">0</span>
+                <button onclick="updateCounter('increase')">+</button>
+                <button onclick="updateCounter('reset')">Reset</button>
+            </div>
+        </div>
+
+        <!-- VALIDATE FORM  -->
+
+        <div class = "interactive-section">
+            <h3>Validating Form</h3>
+            <input type = "text" id="nameInput" placeholder="Your Name" required>
+            <button onclick="validateForm()">Submit</button>
+            <div id="validationMessage">  </div>
+        </div>
+
+        <!-- RANDOM QUOTE GENERATOR -->
+        <div class="interactive-section">
+            <h3>RANDOM QUOTE GENERATOR</h3>
+            <button onclick="generateQuote()">Get Quote</button>
+            <p id="quoteDisplay">Click the button above to get the quote</p>
+        </div>
+
+        <div class="interactive-section">
+            <h3>Random Background Color</h3>
+            <button onclick="changeBackgroundColor()">Change Background</button>
+        </div>
+
+
+        <!-- FLASK APP INTEGRATION -->
+        <div>
+            <h3>GET HELLO FROM FLASK</h3>
+            <button onclick="fetchGreeting()">Get Greeting From Server</button>
+            <p id="greetingResponse">  </p>
+        </div>    
+
+        <div>
+            <h3>Submit name to flask for post request</h3>
+            <input type="text" id = "serverNameInput" placeholder="Enter Your name">
+            <button onclick="submitToServer()">Submit Name to Server</button>
+            <p id="serverResponse">  </p>
+        </div>
+
+        <div>
+            <h3>FUN FACT GENERATOR</h3>
+            <button onclick="generateFunFact()">Get Fun Fact</button>
+            <p id="funfact"> </p>
+        </div>
+
+        <div>
+            <input type="text" id="messageInput" placeholder="Type a message">
+            <button onclick="sendSimplePost()">Submit Message</button>
+            <p id="messageResponse"></p>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+            <h2>CONTACT ME</h2>
+            <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                <div class="form-group">
+                    <input type = "text" id="contact-name" placeholder="Your Name" required>
+                </div>
+
+                <div class="form-group">
+                    <input type = "tel" id="contact-number" placeholder="Your Number" required>
+                </div>
+
+                <div class="form-group">
+                    <input type = "email" id="contact-email" placeholder="Your Email" required>
+                </div>
+
+                <button type="submit">SUBMIT</button>
+            </form>
+            <p id="thank-you" style="color:green; margin-top: 10px;">     </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class = "container">
+            <p>&copy; 2025 Dabeer Ahmed. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+
+</html>
