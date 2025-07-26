@@ -1,0 +1,19 @@
+// Homies Architecture Diagram
+digraph {
+	FE [label="Frontend
+(Next.js + Tailwind)" fillcolor=lightblue shape=box style=filled]
+	BE [label="Backend API
+(Spring Boot - Java)" fillcolor=lightgreen shape=box style=filled]
+	AI [label="AI Microservice
+(FastAPI - Python)" fillcolor=lightyellow shape=box style=filled]
+	DB [label="Database
+(PostgreSQL)" fillcolor=lightgray shape=cylinder style=filled]
+	DO [label="Docker
+(Containers)" fillcolor=white shape=ellipse style=filled]
+	FE -> BE
+	BE -> DB
+	BE -> AI
+	BE -> DO [label=Containerized]
+	AI -> DO [label=Containerized]
+	DB -> DO [label=Containerized]
+}
