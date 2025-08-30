@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceAI - Your Personal Financial Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .chat-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .chat-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .chat-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        #chat-log {
+            height: 400px;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: #fafafa;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            border-radius: 20px;
+            max-width: 80%;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin-left: auto;
+            text-align: right;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .bot-message {
+            background: white;
+            color: #333;
+            border: 2px solid #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        #chat-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 18px 25px;
+            border: 2px solid #f0f0f0;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        #user-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 10px 20px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 1px solid #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .manual-input-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .manual-input-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            padding: 12px 15px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .update-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo">💰 FinanceAI</div>
+            <div class="tagline">Your Personal Financial Intelligence Assistant</div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-assets">$0</div>
+                    <div class="stat-label">Total Assets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthly-income">$0</div>
+                    <div class="stat-label">Monthly Income</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthly-expenses">$0</div>
+                    <div class="stat-label">Monthly Expenses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthly-savings">$0</div>
+                    <div class="stat-label">Monthly Savings</div>
+                </div>
+            </div>
+            
+            <!-- Manual Financial Data Input -->
+            <div class="manual-input-section">
+                <h3>Update Your Financial Data</h3>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="manual-total-assets">Total Assets:</label>
+                        <input type="number" id="manual-total-assets" placeholder="Enter amount" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="manual-monthly-income">Monthly Income:</label>
+                        <input type="number" id="manual-monthly-income" placeholder="Enter amount" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="manual-monthly-expenses">Monthly Expenses:</label>
+                        <input type="number" id="manual-monthly-expenses" placeholder="Enter amount" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="manual-monthly-savings">Monthly Savings:</label>
+                        <input type="number" id="manual-monthly-savings" placeholder="Enter amount" min="0" step="0.01">
+                    </div>
+                </div>
+                <button type="button" id="update-financial-btn" class="update-btn">Update Financial Data</button>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <div class="ai-avatar">AI</div>
+                <div>
+                    <div class="chat-title">Financial Assistant</div>
+                    <div class="chat-subtitle">Ask me about budgeting, investments, savings, or any financial questions</div>
+                </div>
+            </div>
+            
+            <div id="chat-log"></div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                AI is thinking...
+            </div>
+            
+            <form id="chat-form">
+                <input type="text" id="user-input" name="message" placeholder="Ask about your finances..." required>
+                <button type="submit">Send</button>
+            </form>
+            
+            <div class="quick-actions">
+                <div class="quick-btn" onclick="sendQuickMessage('How can I save more money?')">💡 Save Money</div>
+                <div class="quick-btn" onclick="sendQuickMessage('What should I invest in?')">📈 Investments</div>
+                <div class="quick-btn" onclick="sendQuickMessage('Help me create a budget')">📊 Budgeting</div>
+                <div class="quick-btn" onclick="sendQuickMessage('What are good financial habits?')">✅ Good Habits</div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('user-input');
+        const chatLog = document.getElementById('chat-log');
+        const typingIndicator = document.getElementById('typing-indicator');
+        
+        // Financial stats elements
+        const totalAssets = document.getElementById('total-assets');
+        const monthlyIncome = document.getElementById('monthly-income');
+        const monthlyExpenses = document.getElementById('monthly-expenses');
+        const monthlySavings = document.getElementById('monthly-savings');
+        
+        // Manual input elements
+        const manualTotalAssets = document.getElementById('manual-total-assets');
+        const manualMonthlyIncome = document.getElementById('manual-monthly-income');
+        const manualMonthlyExpenses = document.getElementById('manual-monthly-expenses');
+        const manualMonthlySavings = document.getElementById('manual-monthly-savings');
+        const updateFinancialBtn = document.getElementById('update-financial-btn');
+
+        // Add welcome message
+        addMessage("Hello! I'm your personal financial AI assistant. I can help you with budgeting, investments, savings strategies, and financial planning. How can I assist you today?", 'bot-message');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const message = input.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user-message');
+            const userMessage = message; // Store original message for fallback parsing
+            input.value = "";
+            
+            // Show typing indicator
+            typingIndicator.style.display = 'block';
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            try {
+                const response = await fetch("/ask", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({ message })
+                });
+                
+                // Hide typing indicator
+                typingIndicator.style.display = 'none';
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addMessage(data.response, 'bot-message');
+                    
+                    // Primary: Use backend financial data if available
+                    if (data.financial_data && Object.values(data.financial_data).some(val => val > 0)) {
+                        console.log('Using backend extracted data:', data.financial_data);
+                        currentFinancialData = mergeFinancialData(currentFinancialData, data.financial_data);
+                        updateFinancialStats(currentFinancialData);
+                    } else {
+                        // Fallback: Try to extract financial data from text
+                        console.log('Backend extraction failed/empty, trying frontend fallback...');
+                        const fallbackData = extractFinancialDataFromText(data.response, userMessage);
+                        
+                        if (Object.keys(fallbackData).length > 0) {
+                            console.log('Frontend fallback successful:', fallbackData);
+                            
+                            // Merge with existing data and update backend
+                            currentFinancialData = mergeFinancialData(currentFinancialData, fallbackData);
+                            updateFinancialStats(currentFinancialData);
+                            
+                            // Send extracted data to backend to keep it in sync
+                            try {
+                                await fetch('/update-financial-data', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(fallbackData)
+                                });
+                            } catch (e) {
+                                console.log('Failed to sync fallback data with backend');
+                            }
+                        } else {
+                            console.log('No financial data found in response');
+                        }
+                    }
+                } else {
+                    addMessage("I'm having trouble processing your request right now. Please try again in a moment.", 'bot-message');
+                }
+            } catch (error) {
+                typingIndicator.style.display = 'none';
+                addMessage("I'm experiencing connection issues. Please check your internet connection and try again.", 'bot-message');
+            }
+        });
+
+        function addMessage(text, className) {
+            const div = document.createElement("div");
+            div.className = `message ${className}`;
+            
+            const messageText = document.createElement("div");
+            messageText.textContent = text;
+            div.appendChild(messageText);
+            
+            const timeDiv = document.createElement("div");
+            timeDiv.className = "message-time";
+            timeDiv.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            div.appendChild(timeDiv);
+            
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function sendQuickMessage(message) {
+            input.value = message;
+            form.dispatchEvent(new Event('submit'));
+        }
+
+        // Frontend fallback parsing for financial data
+        function extractFinancialDataFromText(text, userMessage) {
+            console.log('Frontend fallback: extracting from text:', text);
+            console.log('Original user message:', userMessage);
+            
+            const extracted = {};
+            
+            // First, try to extract from user's original message
+            const combinedText = userMessage + ' ' + text;
+            
+            // Enhanced patterns that catch various formats
+            const patterns = {
+                monthly_income: [
+                    /(?:monthly income|income)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i,
+                    /\$?([\d,]+(?:\.\d{2})?)[\s]*(?:per month|monthly|\/month)/i,
+                    /(?:make|earn)[:\s]*\$?([\d,]+(?:\.\d{2})?)[\s]*(?:per month|monthly|a month)/i,
+                    /income[:\s]*\$?([\d,]+(?:\.\d{2})?)/i
+                ],
+                monthly_expenses: [
+                    /(?:monthly expenses?|expenses?)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i,
+                    /spend[:\s]*\$?([\d,]+(?:\.\d{2})?)[\s]*(?:per month|monthly|a month)/i,
+                    /\$?([\d,]+(?:\.\d{2})?)[\s]*(?:in expenses?|on expenses?)/i
+                ],
+                monthly_savings: [
+                    /(?:monthly savings?|savings?)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i,
+                    /save[:\s]*\$?([\d,]+(?:\.\d{2})?)[\s]*(?:per month|monthly|a month)/i,
+                    /\$?([\d,]+(?:\.\d{2})?)[\s]*(?:in savings?|saved)/i
+                ],
+                total_assets: [
+                    /(?:total assets?|assets?|net worth)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i,
+                    /have[:\s]*\$?([\d,]+(?:\.\d{2})?)[\s]*(?:in assets?|total)/i,
+                    /worth[:\s]*\$?([\d,]+(?:\.\d{2})?)/i
+                ]
+            };
+            
+            for (const [key, patternList] of Object.entries(patterns)) {
+                for (const pattern of patternList) {
+                    const match = combinedText.match(pattern);
+                    if (match) {
+                        const valueStr = match[1].replace(/[,$]/g, '');
+                        const value = parseFloat(valueStr);
+                        if (!isNaN(value) && value > 0) {
+                            extracted[key] = value;
+                            console.log(`Frontend extracted ${key}:`, value);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            return extracted;
+        }
+
+        // Store current financial data for merging
+        let currentFinancialData = {
+            total_assets: 0,
+            monthly_income: 0,
+            monthly_expenses: 0,
+            monthly_savings: 0
+        };
+
+        function mergeFinancialData(existingData, newData) {
+            const merged = { ...existingData };
+            
+            // Only update fields that have new, valid data
+            for (const [key, value] of Object.entries(newData)) {
+                if (value > 0 && key in merged) {
+                    merged[key] = value;
+                }
+            }
+            
+            return merged;
+        }
+
+        function updateFinancialStats(data) {
+            // Debug logging
+            console.log('Updating financial stats with data:', data);
+            
+            // Update our current financial data store
+            currentFinancialData = { ...data };
+            
+            // Format numbers with commas and currency symbol
+            const formatCurrency = (amount) => {
+                return '$' + parseFloat(amount || 0).toLocaleString('en-US', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                });
+            };
+
+            // Always update all stats, even if they're 0
+            totalAssets.textContent = formatCurrency(data.total_assets);
+            monthlyIncome.textContent = formatCurrency(data.monthly_income);
+            monthlyExpenses.textContent = formatCurrency(data.monthly_expenses);
+            monthlySavings.textContent = formatCurrency(data.monthly_savings);
+
+            console.log('Updated HTML elements:', {
+                totalAssets: totalAssets.textContent,
+                monthlyIncome: monthlyIncome.textContent,
+                monthlyExpenses: monthlyExpenses.textContent,
+                monthlySavings: monthlySavings.textContent
+            });
+
+            // Add animation for non-zero values
+            if (data.total_assets > 0) {
+                totalAssets.style.animation = 'pulse 0.6s ease-in-out';
+            }
+            if (data.monthly_income > 0) {
+                monthlyIncome.style.animation = 'pulse 0.6s ease-in-out';
+            }
+            if (data.monthly_expenses > 0) {
+                monthlyExpenses.style.animation = 'pulse 0.6s ease-in-out';
+            }
+            if (data.monthly_savings > 0) {
+                monthlySavings.style.animation = 'pulse 0.6s ease-in-out';
+            }
+
+            // Remove animation after it completes
+            setTimeout(() => {
+                [totalAssets, monthlyIncome, monthlyExpenses, monthlySavings].forEach(element => {
+                    element.style.animation = '';
+                });
+            }, 600);
+        }
+
+        // Handle manual financial data updates
+        updateFinancialBtn.addEventListener('click', async function() {
+            const newData = {
+                total_assets: parseFloat(manualTotalAssets.value) || 0,
+                monthly_income: parseFloat(manualMonthlyIncome.value) || 0,
+                monthly_expenses: parseFloat(manualMonthlyExpenses.value) || 0,
+                monthly_savings: parseFloat(manualMonthlySavings.value) || 0
+            };
+
+            try {
+                const response = await fetch('/update-financial-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        updateFinancialStats(result.financial_data);
+                        
+                        // Clear input fields
+                        manualTotalAssets.value = '';
+                        manualMonthlyIncome.value = '';
+                        manualMonthlyExpenses.value = '';
+                        manualMonthlySavings.value = '';
+                        
+                        // Show success message
+                        addMessage("Financial data updated successfully! Your stats have been refreshed.", 'bot-message');
+                    }
+                }
+            } catch (error) {
+                addMessage("Failed to update financial data. Please try again.", 'bot-message');
+            }
+        });
+
+        // Load initial financial data when page loads
+        async function loadInitialFinancialData() {
+            try {
+                const response = await fetch('/financial-data');
+                if (response.ok) {
+                    const data = await response.json();
+                    currentFinancialData = { ...data };
+                    updateFinancialStats(data);
+                }
+            } catch (error) {
+                console.log('Could not load initial financial data');
+            }
+        }
+
+        // Auto-focus on input
+        input.focus();
+        
+        // Load initial financial data
+        loadInitialFinancialData();
+    </script>
+</body>
+</html>
