@@ -1,0 +1,5 @@
+# Exclude only the dataset folder
+dataset/
+
+# macOS
+.DS_Store
